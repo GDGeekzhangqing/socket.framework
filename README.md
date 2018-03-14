@@ -1,6 +1,8 @@
 ﻿socket.framework
 ===
 He is a socket framework based on C# framework4.0, using asynchronous connections, asynchronous sending, asynchronous receiving, performance bursting, and stress testing.
+net standard2.0 version https://github.com/fengma312/socket.core  
+
 ---
 
 下面有中文文档     
