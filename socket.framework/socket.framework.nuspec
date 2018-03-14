@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>socket.framework</id>
+    <version>1.0.1</version>
+    <title>socket.framework</title>
+    <authors>fengma_312@163.com</authors>
+    <owners>fengma_312@163.com</owners>
+    <licenseUrl>https://github.com/fengma312/socket.framework/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/fengma312/socket.framework</projectUrl>   
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>He is a socket framework based on C# socket.framework4.0, using asynchronous connections, asynchronous sending, asynchronous receiving, performance bursting, and stress testing.</description>
+    <releaseNotes>socket Simple package</releaseNotes>
+    <copyright>fengma_312@163.com</copyright>
+    <tags>socket</tags>
+  </metadata>
+</package>
