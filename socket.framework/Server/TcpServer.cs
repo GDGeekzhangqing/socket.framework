@@ -544,6 +544,10 @@ namespace socket.framework.Server
             {
                 return default(T);
             }
+            else if(client.attached==null)
+            {
+                return default(T);
+            }
             else
             {
                 return (T)client.attached;
