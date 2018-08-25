@@ -84,6 +84,10 @@ namespace socket.framework.Client
         /// </summary>
         internal event Action OnClose;
         /// <summary>
+        /// 中断连接通知事件
+        /// </summary>
+        internal event Action OnDisconnect;
+        /// <summary>
         /// 锁
         /// </summary>
         private Mutex mutex = new Mutex();
@@ -236,9 +240,13 @@ namespace socket.framework.Client
                     }
                 }
             }
-            else
+            else if (e.SocketError == SocketError.OperationAborted)
             {
                 CloseClientSocket(e);
+            }
+            else if (e.SocketError == SocketError.ConnectionReset || e.SocketError == SocketError.ConnectionAborted)
+            {
+                DisconnectClientSocket(e);
             }
         }
         #endregion
@@ -352,6 +360,18 @@ namespace socket.framework.Client
                 if (OnClose != null)
                 {
                     OnClose();
+                }
+            }
+        }
+
+        private void DisconnectClientSocket(SocketAsyncEventArgs e)
+        {
+            if (e.LastOperation == SocketAsyncOperation.Receive)
+            {
+                socket.Close();
+                if (OnDisconnect != null)
+                {
+                    OnDisconnect();
                 }
             }
         }

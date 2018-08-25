@@ -19,6 +19,7 @@ namespace test.tcp.client.Client
             client.OnReceive += Client_OnReceive;
             client.OnSend += Client_OnSend;
             client.OnClose += Client_OnClose;
+            client.OnDisconnect += Client_OnDisconnect;
             client.Connect(ip, port);
         }
 
@@ -31,6 +32,10 @@ namespace test.tcp.client.Client
         private void Client_OnClose()
         {
             Console.WriteLine($"pull断开");
+        }
+        private void Client_OnDisconnect()
+        {
+            Console.WriteLine($"pull中断");
         }
 
         private void Client_OnConnect(bool obj)

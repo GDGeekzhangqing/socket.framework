@@ -112,6 +112,10 @@ namespace socket.framework.Server
         /// 断开连接通知事件 item1:connectId,
         /// </summary>
         internal event Action<int> OnClose;
+        /// <summary>
+        /// 中断连接通知事件 item1:connectId,
+        /// </summary>
+        internal event Action<int> OnDisconnect;
 
         /// <summary>
         /// 设置基本配置
@@ -484,27 +488,38 @@ namespace socket.framework.Server
             if (e.LastOperation == SocketAsyncOperation.Receive)
             {
                 int connectId = (int)e.UserToken;
+                bool clientDisconnect = false;
                 ConnectClient client;
                 if (!connectClient.TryGetValue(connectId, out client))
                 {
                     return;
                 }
-                if (client.socket.Connected == false)
+                if (client.socket.Connected)
                 {
-                    return;
+                    try
+                    {
+                        client.socket.Shutdown(SocketShutdown.Both);
+                    }
+                    // 抛出客户端进程已经关闭
+                    catch (Exception)
+                    {
+                    }
+                    client.socket.Close();
                 }
-                try
+                else
                 {
-                    client.socket.Shutdown(SocketShutdown.Both);
+                    clientDisconnect = true;
                 }
-                // 抛出客户端进程已经关闭
-                catch (Exception) { }
-                client.socket.Close();
+
                 m_receivePool.Push(e);
                 m_maxNumberAcceptedClients.Release();
-                if (OnClose != null)
+                if (OnClose != null && !clientDisconnect)
                 {
                     OnClose(connectId);
+                }
+                if (OnDisconnect != null && clientDisconnect)
+                {
+                    OnDisconnect(connectId);
                 }
                 connectClient.TryRemove((int)e.UserToken, out client);
                 client = null;

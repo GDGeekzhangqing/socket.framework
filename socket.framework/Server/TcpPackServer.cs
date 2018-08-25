@@ -34,6 +34,10 @@ namespace socket.framework.Server
         /// </summary>
         public event Action<int> OnClose;
         /// <summary>
+        /// 中断连接通知事件  item1:connectId,
+        /// </summary>
+        public event Action<int> OnDisconnect;
+        /// <summary>
         /// 接收到的数据缓存
         /// </summary>
         private Dictionary<int, List<byte>> queue;
@@ -64,6 +68,7 @@ namespace socket.framework.Server
                 tcpServer.OnReceive += TcpServer_eventactionReceive;
                 tcpServer.OnSend += TcpServer_OnSend;
                 tcpServer.OnClose += TcpServer_eventClose;
+                tcpServer.OnDisconnect += TcpServer_eventDisconnect;
             }));
             thread.IsBackground = true;
             thread.Start();
@@ -165,6 +170,20 @@ namespace socket.framework.Server
             }
             if (OnClose != null)
                 OnClose(connectId);
+        }
+
+        /// <summary>
+        /// 中断连接通知事件方法
+        /// </summary>
+        /// <param name="connectId">连接标记</param>
+        private void TcpServer_eventDisconnect(int connectId)
+        {
+            if (queue.ContainsKey(connectId))
+            {
+                queue.Remove(connectId);
+            }
+            if (OnDisconnect != null)
+                OnDisconnect(connectId);
         }
 
         /// <summary>

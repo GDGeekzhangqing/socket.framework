@@ -25,9 +25,9 @@ namespace test.window.server
             int receiveBufferSize = int.Parse(ConfigurationSettings.AppSettings["receiveBufferSize"]);
             int overtime = int.Parse(ConfigurationSettings.AppSettings["overtime"]);
 
-            Push push = new Push(numConnections, receiveBufferSize, overtime, port);
+            //Push push = new Push(numConnections, receiveBufferSize, overtime, port);
             //Pull pull = new Pull(numConnections, receiveBufferSize, overtime, port);
-            //Pack pack = new Pack(numConnections, receiveBufferSize, overtime, port, 0xff);
+            Pack pack = new Pack(numConnections, receiveBufferSize, overtime, port, 0xff);
 
 
             //ThreadPool.QueueUserWorkItem(new WaitCallback((object o) =>

@@ -32,6 +32,10 @@ namespace socket.framework.Client
         /// </summary>
         public event Action OnClose;
         /// <summary>
+        /// 中断连接通知事件
+        /// </summary>
+        public event Action OnDisconnect;
+        /// <summary>
         /// 接收到的数据缓存
         /// </summary>
         private List<byte> queue;
@@ -68,6 +72,7 @@ namespace socket.framework.Client
                 tcpClients.OnReceive += TcpServer_eventactionReceive;
                 tcpClients.OnSend += TcpClients_OnSend;
                 tcpClients.OnClose += TcpServer_eventClose;
+                tcpClients.OnDisconnect += TcpServer_eventDisconnect;
             }));
             thread.IsBackground = true;
             thread.Start();
@@ -176,7 +181,15 @@ namespace socket.framework.Client
                 OnClose();
         }
 
-
+        /// <summary>
+        /// 中断连接通知事件方法
+        /// </summary>
+        private void TcpServer_eventDisconnect()
+        {
+            queue.Clear();
+            if (OnDisconnect != null)
+                OnDisconnect();
+        }
 
     }
 }

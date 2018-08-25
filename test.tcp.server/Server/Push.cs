@@ -27,6 +27,7 @@ namespace test.tcp.server.Server
             server.OnReceive += Server_OnReceive;
             server.OnSend += Server_OnSend;
             server.OnClose += Server_OnClose;
+            server.OnDisconnect += Server_OnDisconnect;
             server.Start(port);
         }
 
@@ -67,6 +68,12 @@ namespace test.tcp.server.Server
         {
             //int aaa = server.GetAttached<int>(obj);
             //Console.WriteLine($"Push断开{obj}");
+        }
+
+        private void Server_OnDisconnect(int obj)
+        {
+            //int aaa = server.GetAttached<int>(obj);
+            //Console.WriteLine($"Push中断{obj}");
         }
 
     }

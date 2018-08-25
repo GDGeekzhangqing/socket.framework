@@ -25,13 +25,14 @@ namespace test.tcp.server.Server
             server.OnReceive += Server_OnReceive;
             server.OnSend += Server_OnSend;
             server.OnClose += Server_OnClose;
+            server.OnDisconnect += Server_OnDisconnect;
             server.Start(port);
         }
 
         private void Server_OnAccept(int obj)
         {
             //server.SetAttached(obj, 555);
-            //Console.WriteLine($"Pack已连接{obj}");
+            Console.WriteLine($"Pack已连接{obj}");
         }
 
         private void Server_OnSend(int arg1, int arg2)
@@ -49,7 +50,13 @@ namespace test.tcp.server.Server
         private void Server_OnClose(int obj)
         {
             //int aaa = server.GetAttached<int>(obj);
-            //Console.WriteLine($"Pack断开{obj}");
+            Console.WriteLine($"Pack断开{obj}");
+        }
+
+        private void Server_OnDisconnect(int obj)
+        {
+            //int aaa = server.GetAttached<int>(obj);
+            Console.WriteLine($"Pack中断{obj}");
         }
     }
 }
