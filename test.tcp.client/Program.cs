@@ -29,17 +29,17 @@ namespace test.window.client
 
 
             ////单个实现测试
-            Push client = new Push(receiveBufferSize, ip, port);
+            //Push client = new Push(receiveBufferSize, ip, port);
             //Pull client = new Pull(receiveBufferSize, ip, port);
-            //Pack client = new Pack(receiveBufferSize, ip, port, 0xff);
+            Pack client = new Pack(receiveBufferSize, ip, port, 0xff);
             //for (int i = 0; i < sendnumber; i++)
             //{
             //    client.Send(data, 0, data.Length);
             //}
 
-            //Thread.Sleep(1000*10);
-            //client.Close();
-
+            Thread.Sleep(1000*10);
+            client.Close();
+            //int a = 0;
             //多线程测试
 
             //ThreadPool.QueueUserWorkItem(new WaitCallback((object o) =>

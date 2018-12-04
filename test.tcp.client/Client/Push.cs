@@ -20,12 +20,17 @@ namespace test.tcp.client.Client
             client.OnReceive += Client_OnReceive;
             client.OnSend += Client_OnSend;
             client.OnClose += Client_OnClose;
+            client.OnDisconnect += Client_OnDisconnect;
             client.Connect(ip, port);
         }
 
         private void Client_OnClose()
         {
             Console.WriteLine($"Push断开");
+        }
+        private void Client_OnDisconnect()
+        {
+            Console.WriteLine($"Push中断");
         }
 
         private void Client_OnReceive(byte[] obj)

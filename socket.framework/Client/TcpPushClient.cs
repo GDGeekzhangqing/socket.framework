@@ -33,6 +33,10 @@ namespace socket.framework.Client
         /// </summary>
         public event Action OnClose;
         /// <summary>
+        /// 中断连接通知事件
+        /// </summary>
+        public event Action OnDisconnect;
+        /// <summary>
         /// 是否连接服务器
         /// </summary>
         public bool Connected
@@ -60,6 +64,7 @@ namespace socket.framework.Client
                 tcpClients.OnReceive += TcpServer_eventactionReceive;
                 tcpClients.OnSend += TcpClients_OnSend;
                 tcpClients.OnClose += TcpServer_eventClose;
+                tcpClients.OnDisconnect += TcpServer_eventDisconnect;
             }));
             thread.IsBackground = true;
             thread.Start();
@@ -135,6 +140,15 @@ namespace socket.framework.Client
         {
             if (OnClose != null)
                 OnClose();
+        }
+
+        /// <summary>
+        /// 中断连接通知事件方法
+        /// </summary>
+        private void TcpServer_eventDisconnect()
+        {
+            if (OnDisconnect != null)
+                OnDisconnect();
         }
     }
 }
